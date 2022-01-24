@@ -1,6 +1,13 @@
+# Read Me First
+This application is ***INCOMPATIBLE*** with **Windows' contrast theme setting** because of the effects it applies to the application windows.
+
+Unless you want an *unreadable, and in my opinion, ugly-looking window*, ***DO NOT ENABLE THIS THEME*** or have the application running while contrast theme settings are enabled.
+
 # Snipper-v2
 ### Description
-I made a scuffed version of Windows 10 snipping tool. Works with Windows 11 of course :)
+I made a scuffed version of Windows 10 snipping tool.
+
+Works with Windows 11 of course :)
 
 ### Features
   - Region selection
@@ -10,7 +17,7 @@ I made a scuffed version of Windows 10 snipping tool. Works with Windows 11 of c
     - Screen selection is based on which screen contains the ***majority of the application window itself***
   - Save screenshot
     - Saves the screenshotted image to your computer through a file dialog
-    - Saves only in the [JPEG](https://en.wikipedia.org/wiki/JPEG) format since there's going to be no pixels without a color
+    - Saves only in the [JPEG](https://en.wikipedia.org/wiki/JPEG) format since every pixel of the image will have an **alpha value** of ***255***, making it a *solid color* pixel.
   - Take screenshot
     - Creates a bitmap of the screen itself using the specified region in the window's image settings
   - Toggleable region preview
