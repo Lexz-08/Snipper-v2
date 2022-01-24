@@ -9,6 +9,7 @@
 		x:Name="RegionPreview"
         Title="Region Preview"
 		Topmost="True"
+		Icon="scissors.ico"
 		
 		WindowStyle="None"
 		WindowStartupLocation="Manual"

@@ -13,6 +13,7 @@
 		Width="800"
 		MinHeight="425"
 		MinWidth="600"
+		Icon="scissors.ico"
 		
 		WindowStartupLocation="CenterScreen"
 		
