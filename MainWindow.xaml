@@ -49,7 +49,8 @@
 						<ColumnDefinition Width="30" /> <!-- 7 -->
 					</Grid.ColumnDefinitions>
 
-					<TextBlock Text="Snipper - A scuffed Windows Snipping Tool"
+					<TextBlock x:Name="WindowTitle"
+							   Text="Snipper - A scuffed Windows Snipping Tool"
 							   FontFamily="/Snipper v2;component/#Source Sans Pro"
 							   FontSize="14"
 							   VerticalAlignment="Center"
@@ -315,7 +316,8 @@
 								 VerticalContentAlignment="Center"
 								 PreviewKeyDown="ModifyNumericInput"
 								 PreviewTextInput="ForceNumericInput"
-								 DataObject.Pasting="InputPasting">
+								 DataObject.Pasting="InputPasting"
+								 BorderThickness="1.5">
 							<TextBox.ToolTip>
 								<ToolTip Content="The X-position of the region for taking the screenshot"
 									 FontFamily="/Snipper v2;component/#Source Sans Pro"
@@ -323,6 +325,11 @@
 									 Background="White"
 									 Foreground="Black"/>
 							</TextBox.ToolTip>
+							<TextBox.Resources>
+								<Style TargetType="Border">
+									<Setter Property="CornerRadius" Value="3" />
+								</Style>
+							</TextBox.Resources>
 						</TextBox>
 						<TextBox x:Name="RegionY"
 								 Text="50"
@@ -332,7 +339,8 @@
 								 VerticalContentAlignment="Center"
 								 PreviewKeyDown="ModifyNumericInput"
 								 PreviewTextInput="ForceNumericInput"
-								 DataObject.Pasting="InputPasting">
+								 DataObject.Pasting="InputPasting"
+								 BorderThickness="1.5">
 							<TextBox.ToolTip>
 								<ToolTip Content="The Y-position of the region for taking the screenshot"
 									 FontFamily="/Snipper v2;component/#Source Sans Pro"
@@ -340,6 +348,11 @@
 									 Background="White"
 									 Foreground="Black"/>
 							</TextBox.ToolTip>
+							<TextBox.Resources>
+								<Style TargetType="Border">
+									<Setter Property="CornerRadius" Value="3" />
+								</Style>
+							</TextBox.Resources>
 						</TextBox>
 						<TextBox x:Name="RegionW"
 								 Text="50"
@@ -349,7 +362,8 @@
 								 VerticalContentAlignment="Center"
 								 PreviewKeyDown="ModifyNumericInput"
 								 PreviewTextInput="ForceNumericInput"
-								 DataObject.Pasting="InputPasting">
+								 DataObject.Pasting="InputPasting"
+								 BorderThickness="1.5">
 							<TextBox.ToolTip>
 								<ToolTip Content="The Width of the region for taking the screenshot"
 									 FontFamily="/Snipper v2;component/#Source Sans Pro"
@@ -357,6 +371,11 @@
 									 Background="White"
 									 Foreground="Black"/>
 							</TextBox.ToolTip>
+							<TextBox.Resources>
+								<Style TargetType="Border">
+									<Setter Property="CornerRadius" Value="3" />
+								</Style>
+							</TextBox.Resources>
 						</TextBox>
 						<TextBox x:Name="RegionH"
 								 Text="50"
@@ -366,7 +385,8 @@
 								 VerticalContentAlignment="Center"
 								 PreviewKeyDown="ModifyNumericInput"
 								 PreviewTextInput="ForceNumericInput"
-								 DataObject.Pasting="InputPasting">
+								 DataObject.Pasting="InputPasting"
+								 BorderThickness="1.5">
 							<TextBox.ToolTip>
 								<ToolTip Content="The Height of the region for taking the screenshot"
 									 FontFamily="/Snipper v2;component/#Source Sans Pro"
@@ -374,6 +394,11 @@
 									 Background="White"
 									 Foreground="Black"/>
 							</TextBox.ToolTip>
+							<TextBox.Resources>
+								<Style TargetType="Border">
+									<Setter Property="CornerRadius" Value="3" />
+								</Style>
+							</TextBox.Resources>
 						</TextBox>
 
 						<Grid Grid.Row="8"

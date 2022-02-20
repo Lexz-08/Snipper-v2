@@ -1,8 +1,10 @@
-﻿using FontAwesome.WPF;
+﻿using AMS.Profile;
+using FontAwesome.WPF;
 using Microsoft.Win32;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -26,6 +28,9 @@ namespace Snipper_v2
 		{
 			InitializeComponent();
 		}
+
+		private int previewSpeed = 0;
+		private Ini config = null;
 
 		[DllImport("user32.dll")]
 		private static extern bool ReleaseCapture();
@@ -184,6 +189,20 @@ namespace Snipper_v2
 			};
 
 			screenshot = CreateScreenshot();
+
+			string file = string.Format("{0}\\config.ini", Environment.CurrentDirectory);
+			if (File.Exists(file) == false)
+			{
+				using (StreamWriter writer = new StreamWriter(file))
+				{
+					writer.Write("[screenshotting]\n" +
+						"changeSpeed=2");
+					writer.Close();
+				}
+			}
+
+			config = new Ini(file);
+			previewSpeed = int.Parse(config.GetValue("screenshotting", "changeSpeed").ToString());
 		}
 
 		private void TogglePreviewScreenshotRegion(object sender, RoutedEventArgs e)
@@ -197,10 +216,22 @@ namespace Snipper_v2
 
 		private void PreviewScreenshotRegion()
 		{
+			if (string.IsNullOrEmpty(RegionX.Text) == true)
+				RegionX.Text = "0";
+
+			if (string.IsNullOrEmpty(RegionY.Text) == true)
+				RegionY.Text = "0";
+
+			if (string.IsNullOrEmpty(RegionW.Text) == true || int.Parse(RegionW.Text) < 10)
+				RegionW.Text = "10";
+
+			if (string.IsNullOrEmpty(RegionH.Text) == true || int.Parse(RegionH.Text) < 10)
+				RegionH.Text = "10";
+
 			regPrev.Left = Math.Max(0, Math.Min(int.Parse(RegionX.Text), int.MaxValue));
 			regPrev.Top = Math.Max(0, Math.Min(int.Parse(RegionY.Text), int.MaxValue));
-			regPrev.Width = Math.Max(0, Math.Min(int.Parse(RegionW.Text), int.MaxValue));
-			regPrev.Height = Math.Max(0, Math.Min(int.Parse(RegionH.Text), int.MaxValue));
+			regPrev.Width = Math.Max(10, Math.Min(int.Parse(RegionW.Text), int.MaxValue));
+			regPrev.Height = Math.Max(10, Math.Min(int.Parse(RegionH.Text), int.MaxValue));
 
 			GC.Collect();
 		}
@@ -302,48 +333,55 @@ namespace Snipper_v2
 				int h = int.Parse(RegionH.Text);
 
 				TextBox txtbx = (TextBox)sender;
-				string currentText = txtbx.Text;
 
-				if (e.Key == Key.Up)
+				if (e.Key == Key.Left)
 				{
-					if (int.Parse(currentText) == x)
+					if (txtbx == RegionX)
 					{
-						currentText = Math.Max(0, Math.Min(x + 2, int.MaxValue)).ToString();
+						RegionX.Text = Math.Max(0, Math.Min(x - previewSpeed, int.MaxValue)).ToString();
+						RegionW.Text = Math.Max(10, Math.Min(w + previewSpeed, int.MaxValue)).ToString();
 					}
-					else if (int.Parse(currentText) == y)
+					else if (txtbx == RegionW)
 					{
-						currentText = Math.Max(0, Math.Min(y + 2, int.MaxValue)).ToString();
+						RegionW.Text = Math.Max(10, Math.Min(w - previewSpeed, int.MaxValue)).ToString();
 					}
-					else if (int.Parse(currentText) == w)
+				}
+				else if (e.Key == Key.Right)
+				{
+					if (txtbx == RegionX)
 					{
-						currentText = Math.Max(0, Math.Min(w + 2, int.MaxValue)).ToString();
+						RegionX.Text = Math.Max(0, Math.Min(x + previewSpeed, int.MaxValue)).ToString();
+						RegionW.Text = Math.Max(10, Math.Min(w - previewSpeed, int.MaxValue)).ToString();
 					}
-					else if (int.Parse(currentText) == h)
+					else if (txtbx == RegionW)
 					{
-						currentText = Math.Max(0, Math.Min(h + 2, int.MaxValue)).ToString();
+						RegionW.Text = Math.Max(10, Math.Min(w + previewSpeed, int.MaxValue)).ToString();
+					}
+				}
+				else if (e.Key == Key.Up)
+				{
+					if (txtbx == RegionY)
+					{
+						RegionY.Text = Math.Max(0, Math.Min(y - previewSpeed, int.MaxValue)).ToString();
+						RegionH.Text = Math.Max(10, Math.Min(h + previewSpeed, int.MaxValue)).ToString();
+					}
+					else if (txtbx == RegionH)
+					{
+						RegionH.Text = Math.Max(10, Math.Min(h - previewSpeed, int.MaxValue)).ToString();
 					}
 				}
 				else if (e.Key == Key.Down)
 				{
-					if (int.Parse(currentText) == x)
+					if (txtbx == RegionY)
 					{
-						currentText = Math.Max(0, Math.Min(x - 2, int.MaxValue)).ToString();
+						RegionY.Text = Math.Max(0, Math.Min(y + previewSpeed, int.MaxValue)).ToString();
+						RegionH.Text = Math.Max(10, Math.Min(h - previewSpeed, int.MaxValue)).ToString();
 					}
-					else if (int.Parse(currentText) == y)
+					else if (txtbx == RegionH)
 					{
-						currentText = Math.Max(0, Math.Min(y - 2, int.MaxValue)).ToString();
-					}
-					else if (int.Parse(currentText) == w)
-					{
-						currentText = Math.Max(0, Math.Min(w - 2, int.MaxValue)).ToString();
-					}
-					else if (int.Parse(currentText) == h)
-					{
-						currentText = Math.Max(0, Math.Min(h - 2, int.MaxValue)).ToString();
+						RegionH.Text = Math.Max(10, Math.Min(h + previewSpeed, int.MaxValue)).ToString();
 					}
 				}
-
-				txtbx.Text = currentText;
 			}
 			catch { return; }
 		}
